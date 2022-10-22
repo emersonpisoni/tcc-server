@@ -60,4 +60,4 @@ function refreshPlayers() {
 
 app.get('/', (req, res) => res.send("Hiiiii"))
 
-server.listen(4000)
+server.listen(process.env.PORT || 4000)
