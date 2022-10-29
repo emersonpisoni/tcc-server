@@ -1,6 +1,7 @@
 import express from 'express'
 import http from 'http'
 import { Server } from 'socket.io'
+import { getSurvivorsToChoose } from './database/survivors.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -11,23 +12,53 @@ const io = new Server(server, {
 })
 
 const game = {
-  players: [],
+  players: [
+    {
+      socketId: 'socketId',
+      name: 'name',
+      survivors: []
+    }
+  ],
   survivors: {}
 }
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} conectado`)
 
-  const name = 'Player_' + socket.id.substring(0, 5)
-  game.players.push({ [socket.id]: name })
+  socket.on('AddPlayer', (name) => {
+    game.players.push({ socketId: socket.id, name, survivors: [] })
 
-  io.emit('PlayerConnected', game.players)
+    io.emit('PlayersConnected', game.players)
+    console.log(game.players)
+  })
+
+  socket.on('GetAvailableSurvivors', () => {
+    socket.emit('SendAvailableSurvivors', getSurvivorsToChoose(), game.players)
+  })
+
+  socket.on('AddSurvivorToPlayer', newSurvivor => {
+    const playerIndex = game.players.findIndex(player => player.socketId === socket.id)
+    const player = game.players[playerIndex]
+    const currentSurvivorIndex = player.survivors.findIndex(currentSurvivor => currentSurvivor.name === newSurvivor.name)
+    const hasAlreadySurvivor = currentSurvivorIndex !== -1
+
+    if (hasAlreadySurvivor) {
+      game.players[playerIndex].survivors.splice(currentSurvivorIndex, 1)
+    } else {
+      game.players[playerIndex].survivors.push(newSurvivor)
+    }
+
+    io.emit('UpdateAddSurvivorsToPlay', game.players)
+  })
 
   socket.on('disconnect', () => {
-    const playerIndex = Object.keys(game.players).findIndex(id => id === socket.id)
+    const playerIndex = game.players.findIndex(player => player.socketId === socket.id)
     game.players.splice(playerIndex)
     refreshPlayers()
   })
+
+
+
 
   socket.on('AddSurvivors', (survivors) => {
     game.survivors = {
