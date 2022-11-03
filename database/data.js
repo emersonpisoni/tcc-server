@@ -6,7 +6,30 @@ const ABILITIES = {
   PLUS1_MOVE: 'O Sobrevivente pode se mover + 1 vez',
   PLUS1_DICE_VALUE_COMBAT_ACTION: 'Após jogar os dados o valor total recebe + 1',
   SORTE: 'Após jogar os dados o valor total recebe + 1',
+}
 
+const ZOMBIES = {
+  LERDO: {
+    name: 'LERDO',
+    damage: 1,
+    life: 1,
+    adrenalinePointsGiven: 1,
+    actions: 2
+  },
+  BALOFO: {
+    name: 'BALOFO',
+    damage: 1,
+    life: 2,
+    adrenalinePointsGiven: 1,
+    actions: 2
+  },
+  CORREDOR: {
+    name: 'CORREDOR',
+    damage: 1,
+    life: 1,
+    adrenalinePointsGiven: 1,
+    actions: 2
+  },
 }
 
 export const MAP_POSITION_TYPE = {
@@ -33,31 +56,28 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
-          level: 'RED'
-        },
-        {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
-          level: 'RED'
-        },
-        {
-          name: ABILITIES.SORTE,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
       ]
@@ -70,31 +90,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -107,31 +134,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -144,31 +178,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -181,31 +222,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -218,31 +266,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -255,31 +310,38 @@ export function getSurvivorsToChoose() {
       level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -289,34 +351,41 @@ export function getSurvivorsToChoose() {
       life: 3,
       isChild: false,
       inventory: [],
-      level: 1,
+      level: 0,
       abilities: [
         {
-          name: ABILITIES.LISO,
+          name: 'LISO',
+          description: ABILITIES.LISO,
           level: 'BLUE'
         },
         {
-          name: ABILITIES.PLUS1_AÇÃO,
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
           level: 'YELLOW'
         },
         {
-          name: ABILITIES.PLUS1_DICE_MELEE,
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_COMBAT_ACTION,
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
           level: 'ORANGE'
         },
         {
-          name: ABILITIES.PLUS1_MOVE,
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
           level: 'RED'
         },
         {
-          name: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
           level: 'RED'
         },
         {
-          name: ABILITIES.SORTE,
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
           level: 'RED'
         },
       ]
@@ -371,6 +440,36 @@ export function getBoard() {
       x: 3,
       y: 1
     },
+    zombies: [
+      {
+        ...ZOMBIES.CORREDOR,
+        position: {
+          x: 1,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.BALOFO,
+        position: {
+          x: 1,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.LERDO,
+        position: {
+          x: 2,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.LERDO,
+        position: {
+          x: 3,
+          y: 3
+        },
+      },
+    ],
     positions: [
       {
         mapPosition: {
@@ -379,7 +478,7 @@ export function getBoard() {
         },
         type: MAP_POSITION_TYPE.ROOM,
         canMoveTo: [DIRECTIONS.RIGHT, DIRECTIONS.DOWN],
-        walls: [DIRECTIONS.UP, DIRECTIONS.LEFT],
+        // walls: [DIRECTIONS.UP, DIRECTIONS.LEFT],
         freeMoveTo: [],
         hasGoal: false,
         hasGunBox: false,
@@ -394,7 +493,7 @@ export function getBoard() {
         },
         type: MAP_POSITION_TYPE.ROOM,
         canMoveTo: [DIRECTIONS.LEFT],
-        walls: [DIRECTIONS.RIGHT],
+        // walls: [DIRECTIONS.RIGHT],
         freeMoveTo: [DIRECTIONS.DOWN],
         hasGoal: false,
         hasGunBox: false,
@@ -409,7 +508,7 @@ export function getBoard() {
         },
         type: MAP_POSITION_TYPE.STREET,
         canMoveTo: [DIRECTIONS.RIGHT, DIRECTIONS.DOWN],
-        walls: [DIRECTIONS.LEFT],
+        // walls: [DIRECTIONS.LEFT],
         freeMoveTo: [],
         hasGoal: false,
         hasGunBox: false,
@@ -424,7 +523,7 @@ export function getBoard() {
         },
         type: MAP_POSITION_TYPE.STREET,
         canMoveTo: [DIRECTIONS.RIGHT, DIRECTIONS.LEFT, DIRECTIONS.DOWN],
-        walls: [],
+        // walls: [],
         freeMoveTo: [],
         hasGoal: false,
         hasGunBox: false,
@@ -452,7 +551,7 @@ export function getBoard() {
           y: 1
         },
         type: MAP_POSITION_TYPE.ROOM,
-        canMoveTo: [DIRECTIONS.RIGHT],
+        canMoveTo: [DIRECTIONS.RIGHT, DIRECTIONS.UP],
         freeMoveTo: [],
         hasGoal: true,
         hasGunBox: false,

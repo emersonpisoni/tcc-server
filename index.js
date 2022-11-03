@@ -11,10 +11,88 @@ const io = new Server(server, {
   }
 })
 
+// const game = {
+//   players: [
+//     { 
+//       socketId: socket.id, 
+//       name: name, 
+//       survivors: [
+//         {
+//           position: {
+//             x: 3,
+//             y: 1
+//           },
+//           name: 'Josh',
+//           life: 3,
+//           isChild: false,
+//           inventory: [],
+//           level: 0,
+//           abilities: [
+//             {
+//               name: 'LISO',
+//               description: ABILITIES.LISO,
+//               level: 'BLUE'
+//             },
+//           ]
+//         },
+//       ] 
+//     }
+//   ],
+//   board: {
+//     currentZombieIndex: 0,
+//     initialSurvivorsPosition: {
+//       x: 3,
+//       y: 1
+//     },
+//     zombies: [
+//       {
+//         name: 'LERDO',
+//         damage: 1,
+//         life: 1,
+//         adrenalinePointsGiven: 1,
+//         actions: 2,
+//         position: {
+//           x: 1,
+//           y: 3
+//         },
+//       },
+//     ],
+//     positions: [
+//       {
+//         mapPosition: {
+//           x: 1,
+//           y: 1
+//         },
+//         type: MAP_POSITION_TYPE.ROOM,
+//         canMoveTo: [DIRECTIONS.RIGHT, DIRECTIONS.DOWN],
+//         walls: [DIRECTIONS.UP, DIRECTIONS.LEFT],
+//         freeMoveTo: [],
+//         hasGoal: false,
+//         hasGunBox: false,
+//         evacuatePosition: false,
+//         zombieSpawnByRound: false,
+//         zombieSpawnInitial: 0,
+//       },
+//     ],
+//   },
+//   currentSurvivor: {
+//     actions: 3
+//   }
+// }
+
+const survColors = [
+  'ORANGE',
+  'GREEN',
+  'YELLOW',
+  'PURPLE',
+  'RED',
+  'BLUE',
+]
+
 const game = {
   players: [],
   board: {},
-  currentSurvivor: {}
+  currentSurvivor: {},
 }
 
 io.on("connection", (socket) => {
@@ -55,8 +133,15 @@ io.on("connection", (socket) => {
 
   socket.on('GetBoard', () => {
     game.board = getBoard()
-    game.players.forEach(player => {
-      player.survivors = player.survivors.map(survivor => ({ ...survivor, position: game.board.initialSurvivorsPosition }))
+    game.players.forEach((player, playerIndex) => {
+      const isFirstPlayer = playerIndex === 0
+      const survColorIndex = isFirstPlayer ? 0 : game.players[playerIndex - 1].survivors.length
+      player.survivors = player.survivors.map((survivor, survIndex) =>
+      ({
+        ...survivor,
+        position: game.board.initialSurvivorsPosition,
+        color: survColors[survColorIndex + survIndex]
+      }))
     })
 
     socket.emit('SendBoard', game.board, game.players)
@@ -66,17 +151,60 @@ io.on("connection", (socket) => {
   socket.on('SelectCurrentSurvivor', survivorName => {
     game.currentSurvivor = getCurrentCurrentSurvivor(survivorName)
 
-    io.emit('CurrentSurvivorSelected', game.currentSurvivor)
+    io.emit('CurrentSurvivorSelected', { ...game.currentSurvivor, actions: 3 })
   })
 
-  socket.on('MoveSurvivor', (surv) => {
+  socket.on('MoveSurvivor', (surv, isFreeMove) => {
     const currentPlayer = game.players[getCurrentPlayerIndex(socket)]
     const survivorIndex = currentPlayer.survivors.findIndex(survivor => survivor.name === surv.name)
+    const newSurv = { ...surv, actions: surv.actions - (isFreeMove ? 0 : 1) }
 
-    game.currentSurvivor = surv
+    if (newSurv.actions < 0) return
+
+    game.currentSurvivor = newSurv
     currentPlayer.survivors[survivorIndex] = surv
 
-    updatePlayers()
+    if (newSurv.actions === 0) {
+      io.emit('NextSurvivor')
+    }
+
+    updateGame()
+  })
+
+  socket.on('StartZombieRound', () => {
+    if (game.board.zombies.length > 0) {
+      let previousTimeout = 0
+      let timeout = 0
+      game.board.zombies.forEach((zombie, index) => {
+        const shortestPath = findShortestPath(graph(), `${zombie.position.x}${zombie.position.y}`, '31')
+        timeout += previousTimeout
+        previousTimeout = 1000 * (shortestPath.path.length + 1)
+        console.log(timeout);
+        setTimeout(() => {
+          console.log('fora', timeout)
+          game.board.currentZombieIndex = index
+          updateGame()
+          shortestPath.path.map((pathPosition, pathIndex) => {
+            setTimeout(() => {
+              console.log('dentro', 1000 * (pathIndex + 1))
+              game.board.zombies[index] = {
+                ...zombie,
+                position: {
+                  ...zombie.position,
+                  x: parseInt(pathPosition.charAt(0)),
+                  y: parseInt(pathPosition.charAt(1)),
+                }
+              }
+              updateGame()
+            }, 1000 * (pathIndex + 1));
+          })
+        }, timeout);
+      })
+
+      // game.board.currentZombieIndex = -1
+      // updateGame()
+    }
+
   })
 
 
@@ -85,35 +213,192 @@ io.on("connection", (socket) => {
     game.players.splice(playerIndex)
     updatePlayers()
   })
-
-
-  // socket.on('AddSurvivors', (survivors) => {
-  //   game.survivors = {
-  //     [survivors[0].name]: survivors[0],
-  //     [survivors[1].name]: survivors[1],
-  //     [survivors[2].name]: survivors[2],
-  //     [survivors[3].name]: survivors[3],
-  //     [survivors[4].name]: survivors[4],
-  //     [survivors[5].name]: survivors[5],
-  //   }
-
-  //   console.log('on add suvvivors', game.survivors)
-  // })
-
-  // socket.on('MoveSurvivor', (newSurvivor) => {
-  //   game.survivors[newSurvivor.name] = newSurvivor
-  //   console.log('on move suvvivors', newSurvivor)
-
-  //   io.emit('RefreshSurvivors', newSurvivor, socket.id)
-  // })
-
-  // socket.on('SetCurrentSurvivor', (survivorName) => {
-  //   io.emit('SetCurrentSurvivor', survivorName)
-  // })
 })
+
+function positionWhereZombiesWillGo() {
+  const currentZombiePosition = game.board.zombies[game.board.currentZombieIndex].position
+  const positionAsArray = [currentZombiePosition.x, currentZombiePosition.y]
+
+  const closestSurvivor = {}
+
+
+}
+
+function graph() {
+  const graph = {}
+  getBoard().positions.forEach(({ mapPosition, canMoveTo, freeMoveTo }) => {
+    if (canMoveTo.includes('RIGHT') || freeMoveTo.includes('RIGHT')) {
+      graph[`${mapPosition.x}${mapPosition.y}`] = { ...graph[`${mapPosition.x}${mapPosition.y}`], [`${mapPosition.x}${mapPosition.y + 1}`]: 1 }
+    }
+    if (canMoveTo.includes('DOWN') || freeMoveTo.includes('DOWN')) {
+      graph[`${mapPosition.x}${mapPosition.y}`] = { ...graph[`${mapPosition.x}${mapPosition.y}`], [`${mapPosition.x + 1}${mapPosition.y}`]: 1 }
+    }
+    if (canMoveTo.includes('LEFT') || freeMoveTo.includes('LEFT')) {
+      graph[`${mapPosition.x}${mapPosition.y}`] = { ...graph[`${mapPosition.x}${mapPosition.y}`], [`${mapPosition.x}${mapPosition.y - 1}`]: 1 }
+    }
+    if (canMoveTo.includes('UP') || freeMoveTo.includes('UP')) {
+      graph[`${mapPosition.x}${mapPosition.y}`] = { ...graph[`${mapPosition.x}${mapPosition.y}`], [`${mapPosition.x - 1}${mapPosition.y}`]: 1 }
+    }
+  })
+  return graph
+}
+
+let shortestDistanceNode = (distances, visited) => {
+  // create a default value for shortest
+  let shortest = null;
+
+  // for each node in the distances object
+  for (let node in distances) {
+    // if no node has been assigned to shortest yet
+    // or if the current node's distance is smaller than the current shortest
+    let currentIsShortest =
+      shortest === null || distances[node] < distances[shortest];
+
+    // and if the current node is in the unvisited set
+    if (currentIsShortest && !visited.includes(node)) {
+      // update shortest to be the current node
+      shortest = node;
+    }
+  }
+  return shortest;
+};
+
+let findShortestPath = (graph, startNode, endNode) => {
+  // track distances from the start node using a hash object
+  let distances = {};
+  distances[endNode] = "Infinity";
+  distances = Object.assign(distances, graph[startNode]);
+  // track paths using a hash object
+  let parents = { endNode: null };
+  for (let child in graph[startNode]) {
+    parents[child] = startNode;
+  }
+
+  // collect visited nodes
+  let visited = [];
+  // find the nearest node
+  let node = shortestDistanceNode(distances, visited);
+
+  // for that node:
+  while (node) {
+    // find its distance from the start node & its child nodes
+    let distance = distances[node];
+    let children = graph[node];
+
+    // for each of those child nodes:
+    for (let child in children) {
+
+      // make sure each child node is not the start node
+      if (String(child) === String(startNode)) {
+        continue;
+      } else {
+        // save the distance from the start node to the child node
+        let newdistance = distance + children[child];
+        // if there's no recorded distance from the start node to the child node in the distances object
+        // or if the recorded distance is shorter than the previously stored distance from the start node to the child node
+        if (!distances[child] || distances[child] > newdistance) {
+          // save the distance to the object
+          distances[child] = newdistance;
+          // record the path
+          parents[child] = node;
+        }
+      }
+    }
+    // move the current node to the visited set
+    visited.push(node);
+    // move to the nearest neighbor node
+    node = shortestDistanceNode(distances, visited);
+  }
+
+  // using the stored paths from start node to end node
+  // record the shortest path
+  let shortestPath = [endNode];
+  let parent = parents[endNode];
+  while (parent) {
+    shortestPath.push(parent);
+    parent = parents[parent];
+  }
+  shortestPath.reverse();
+
+  //this is the shortest path
+  let results = {
+    distance: distances[endNode],
+    path: shortestPath,
+  };
+  // return the shortest path & the end node's distance from the start node
+  return results;
+};
+// {
+//   "11": {
+//       "12": 1,
+//       "21": 1
+//   },
+//   "12": {
+//       "11": 1
+//   },
+//   "13": {
+//       "14": 1,
+//       "23": 1
+//   },
+//   "14": {
+//       "13": 1,
+//       "15": 1,
+//       "24": 1
+//   },
+//   "15": {
+//       "14": 1
+//   },
+//   "21": {
+//       "22": 1
+//   },
+//   "22": {
+//       "21": 1,
+//       "32": 1
+//   },
+//   "23": {
+//       "13": 1,
+//       "33": 1
+//   },
+//   "24": {
+//       "14": 1,
+//       "25": 1,
+//       "34": 1
+//   },
+//   "25": {
+//       "24": 1,
+//       "35": 1
+//   },
+//   "31": {
+//       "32": 1
+//   },
+//   "32": {
+//       "22": 1,
+//       "31": 1,
+//       "33": 1
+//   },
+//   "33": {
+//       "23": 1,
+//       "32": 1,
+//       "34": 1
+//   },
+//   "34": {
+//       "24": 1,
+//       "33": 1,
+//       "35": 1
+//   },
+//   "35": {
+//       "25": 1,
+//       "34": 1
+//   },
+// }
+// })
 
 function updatePlayers() {
   io.emit('UpdatePlayers', game.players)
+}
+
+function updateGame() {
+  io.emit('UpdateGame', game)
 }
 
 function getCurrentPlayerIndex(socket) {
