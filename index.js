@@ -139,16 +139,21 @@ io.on("connection", (socket) => {
 
   socket.on('GetBoard', () => {
     game.board = getBoard()
-    game.players.forEach((player, playerIndex) => {
-      const isFirstPlayer = playerIndex === 0
-      const survColorIndex = isFirstPlayer ? 0 : game.players[playerIndex - 1].survivors.length
-      player.survivors = player.survivors.map((survivor, survIndex) =>
-      ({
-        ...survivor,
-        position: game.board.initialSurvivorsPosition,
-        color: survColors[survColorIndex + survIndex],
-        inventory: [game.cards.initial[survIndex]]
-      }))
+    let survColorIndex = 0
+    game.players.forEach((player) => {
+      // const isFirstPlayer = playerIndex === 0
+      // const survColorIndex = isFirstPlayer ? 0 : game.players[playerIndex - 1].survivors.length
+      player.survivors = player.survivors.map((survivor, survIndex) => {
+        const newSurv = {
+          ...survivor,
+          position: game.board.initialSurvivorsPosition,
+          color: survColors[survColorIndex],
+          inventory: [game.cards.initial[survIndex]]
+        }
+        survColorIndex++
+
+        return newSurv
+      })
     })
 
     socket.emit('SendBoard', game.board, game.players)
@@ -275,6 +280,8 @@ io.on("connection", (socket) => {
           })
         }, timeout))
       })
+    } else {
+      finishRound()
     }
   })
 
