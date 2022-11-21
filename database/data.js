@@ -8,7 +8,7 @@ const ABILITIES = {
   SORTE: 'Após jogar os dados o valor total recebe + 1',
 }
 
-const ZOMBIES = {
+export const ZOMBIES = {
   LERDO: {
     name: 'LERDO',
     damage: 1,
@@ -393,45 +393,159 @@ export function getSurvivorsToChoose() {
   ]
 }
 
-export function items() {
-  return [
-    {
-      name: 'PISTOLA',
-      canBeDouble: true,
-      distanceToUse: [0, 1],
-      diceQuantity: 1,
-      diceValueToHit: 3,
-      damage: 1,
-      makeNoiseOnDoors: false,
-      makeNoiseOnZombies: true,
-      munitionType: 'BULLETS',
-      canBrokeDoors: false,
-    },
-    {
-      name: 'MACHADO',
-      canBeDouble: false,
-      distanceToUse: [0, 0],
-      diceQuantity: 1,
-      diceValueToHit: 4,
-      damage: 2,
-      makeNoiseOnDoors: true,
-      makeNoiseOnZombies: false,
-      munitionType: null,
-      canBrokeDoors: false,
-    },
-    {
-      name: 'MOTOSERRA',
-      canBeDouble: false,
-      distanceToUse: [0, 0],
-      diceQuantity: 5,
-      diceValueToHit: 5,
-      damage: 2,
-      makeNoiseOnDoors: true,
-      makeNoiseOnZombies: true,
-      munitionType: null,
-      canBrokeDoors: true,
-    },
-  ]
+export function itemCards() {
+  return {
+    initials: [
+      {
+        name: 'PISTOLA',
+        canBeDouble: true,
+        distanceToUse: [0, 1],
+        diceQuantity: 1,
+        diceValueToHit: 3,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: true,
+        munitionType: 'LEVE',
+        canBrokeDoors: false,
+      },
+      {
+        name: 'PISTOLA',
+        canBeDouble: true,
+        distanceToUse: [0, 1],
+        diceQuantity: 1,
+        diceValueToHit: 3,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: true,
+        munitionType: 'LEVE',
+        canBrokeDoors: false,
+      },
+      {
+        name: 'MACHADO',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 1,
+        diceValueToHit: 4,
+        damage: 2,
+        makeNoiseOnDoors: true,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'TACO DE BASEBALL',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 2,
+        diceValueToHit: 3,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'TACO DE BASEBALL',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 2,
+        diceValueToHit: 3,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'PÉ DE CABRA',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 1,
+        diceValueToHit: 4,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: true,
+      },
+    ],
+    search: [
+      {
+        name: 'KATANA',
+        canBeDouble: true,
+        distanceToUse: [0, 0],
+        diceQuantity: 2,
+        diceValueToHit: 4,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'CANO SERRADO',
+        canBeDouble: true,
+        distanceToUse: [0, 1],
+        diceQuantity: 2,
+        diceValueToHit: 3,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: true,
+        munitionType: 'PESADA',
+        canBrokeDoors: false,
+      },
+      {
+        name: 'SUBMETRALHADORA',
+        canBeDouble: true,
+        distanceToUse: [0, 1],
+        diceQuantity: 3,
+        diceValueToHit: 5,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: true,
+        munitionType: 'LEVE',
+        canBrokeDoors: false,
+      },
+    ],
+    tunnedGuns: [
+      {
+        name: 'ZANTETSUKEN',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 5,
+        diceValueToHit: 4,
+        damage: 1,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'TACO COM PREGOS',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 2,
+        diceValueToHit: 3,
+        damage: 2,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+      {
+        name: 'BAIONETA',
+        canBeDouble: false,
+        distanceToUse: [0, 0],
+        diceQuantity: 1,
+        diceValueToHit: 3,
+        damage: 2,
+        makeNoiseOnDoors: false,
+        makeNoiseOnZombies: false,
+        munitionType: null,
+        canBrokeDoors: false,
+      },
+    ]
+  }
 }
 
 export function getBoard() {
@@ -448,27 +562,27 @@ export function getBoard() {
           y: 3
         },
       },
-      {
-        ...ZOMBIES.BALOFO,
-        position: {
-          x: 1,
-          y: 3
-        },
-      },
-      {
-        ...ZOMBIES.LERDO,
-        position: {
-          x: 2,
-          y: 3
-        },
-      },
-      {
-        ...ZOMBIES.LERDO,
-        position: {
-          x: 3,
-          y: 3
-        },
-      },
+      // {
+      //   ...ZOMBIES.BALOFO,
+      //   position: {
+      //     x: 1,
+      //     y: 3
+      //   },
+      // },
+      // {
+      //   ...ZOMBIES.LERDO,
+      //   position: {
+      //     x: 2,
+      //     y: 3
+      //   },
+      // },
+      // {
+      //   ...ZOMBIES.LERDO,
+      //   position: {
+      //     x: 3,
+      //     y: 3
+      //   },
+      // },
     ],
     positions: [
       {
@@ -688,4 +802,36 @@ export function getBoard() {
     ]
   }
 
+}
+
+export function zombieCards() {
+  return [
+    {
+      name: 'CORREDORES',
+      quantity: {
+        blue: 1,
+        yellow: 1,
+        orange: 2,
+        red: 3
+      }
+    },
+    {
+      name: 'BALOFOS',
+      quantity: {
+        blue: 1,
+        yellow: 1,
+        orange: 2,
+        red: 3
+      }
+    },
+    {
+      name: 'LERDOS',
+      quantity: {
+        blue: 1,
+        yellow: 1,
+        orange: 2,
+        red: 3
+      }
+    },
+  ]
 }
