@@ -556,34 +556,34 @@ export function getBoard() {
       y: 1
     },
     zombies: [
-      // {
-      //   ...ZOMBIES.CORREDOR,
-      //   position: {
-      //     x: 1,
-      //     y: 3
-      //   },
-      // },
-      // {
-      //   ...ZOMBIES.BALOFO,
-      //   position: {
-      //     x: 1,
-      //     y: 3
-      //   },
-      // },
-      // {
-      //   ...ZOMBIES.LERDO,
-      //   position: {
-      //     x: 2,
-      //     y: 3
-      //   },
-      // },
-      // {
-      //   ...ZOMBIES.LERDO,
-      //   position: {
-      //     x: 3,
-      //     y: 3
-      //   },
-      // },
+      {
+        ...ZOMBIES.CORREDOR,
+        position: {
+          x: 1,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.BALOFO,
+        position: {
+          x: 1,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.LERDO,
+        position: {
+          x: 2,
+          y: 3
+        },
+      },
+      {
+        ...ZOMBIES.LERDO,
+        position: {
+          x: 3,
+          y: 3
+        },
+      },
     ],
     positions: [
       {
