@@ -49,7 +49,7 @@ export const MAP_POSITION_SIZE = 200
 export function getSurvivorsToChoose() {
   return [
     {
-      name: 'Josh',
+      name: 'Emershow',
       life: 3,
       isChild: false,
       inventory: [],
@@ -83,51 +83,7 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh1',
-      life: 3,
-      isChild: false,
-      inventory: [],
-      level: 0,
-      abilities: [
-        {
-          name: 'LISO',
-          description: ABILITIES.LISO,
-          level: 'BLUE'
-        },
-        {
-          name: '+1 AÇÃO',
-          description: ABILITIES.PLUS1_AÇÃO,
-          level: 'YELLOW'
-        },
-        {
-          name: '+1 DADO: CORPO A CORPO',
-          description: ABILITIES.PLUS1_DICE_MELEE,
-          level: 'ORANGE'
-        },
-        {
-          name: '+1 AÇÃO DE COMBATE GRATUITA',
-          description: ABILITIES.PLUS1_COMBAT_ACTION,
-          level: 'ORANGE'
-        },
-        {
-          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
-          description: ABILITIES.PLUS1_MOVE,
-          level: 'RED'
-        },
-        {
-          name: '+1 NO RESULTADO: COMBATE',
-          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
-          level: 'RED'
-        },
-        {
-          name: 'SORTE',
-          description: ABILITIES.SORTE,
-          level: 'RED'
-        },
-      ]
-    },
-    {
-      name: 'Josh2',
+      name: 'Vic',
       life: 3,
       isChild: false,
       inventory: [],
@@ -171,7 +127,7 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh3',
+      name: 'Will',
       life: 3,
       isChild: false,
       inventory: [],
@@ -215,7 +171,7 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh4',
+      name: 'Dave D',
       life: 3,
       isChild: false,
       inventory: [],
@@ -259,7 +215,7 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh5',
+      name: 'Chris',
       life: 3,
       isChild: false,
       inventory: [],
@@ -303,7 +259,7 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh6',
+      name: 'Ryan',
       life: 3,
       isChild: false,
       inventory: [],
@@ -347,7 +303,51 @@ export function getSurvivorsToChoose() {
       ]
     },
     {
-      name: 'Josh7',
+      name: 'Thevir',
+      life: 3,
+      isChild: false,
+      inventory: [],
+      level: 0,
+      abilities: [
+        {
+          name: 'LISO',
+          description: ABILITIES.LISO,
+          level: 'BLUE'
+        },
+        {
+          name: '+1 AÇÃO',
+          description: ABILITIES.PLUS1_AÇÃO,
+          level: 'YELLOW'
+        },
+        {
+          name: '+1 DADO: CORPO A CORPO',
+          description: ABILITIES.PLUS1_DICE_MELEE,
+          level: 'ORANGE'
+        },
+        {
+          name: '+1 AÇÃO DE COMBATE GRATUITA',
+          description: ABILITIES.PLUS1_COMBAT_ACTION,
+          level: 'ORANGE'
+        },
+        {
+          name: '+1 AÇÃO DE MOVIMENTO GRATUITA',
+          description: ABILITIES.PLUS1_MOVE,
+          level: 'RED'
+        },
+        {
+          name: '+1 NO RESULTADO: COMBATE',
+          description: ABILITIES.PLUS1_DICE_VALUE_COMBAT_ACTION,
+          level: 'RED'
+        },
+        {
+          name: 'SORTE',
+          description: ABILITIES.SORTE,
+          level: 'RED'
+        },
+      ]
+    },
+    {
+      name: 'Ney',
       life: 3,
       isChild: false,
       inventory: [],
