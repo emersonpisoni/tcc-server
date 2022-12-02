@@ -100,6 +100,19 @@ const game = {
   }
 }
 
+function verifyIfAllSurvivorsAreOnExit() {
+  console.log(game.board);
+  const evacuatedMapPosition = game.board?.positions?.find(position => position?.evacuatePosition)
+
+  const isNotAllSurvsOnEvacuatedPosition = getAllSurvivors().some(surv => {
+    return surv.position.x !== evacuatedMapPosition?.mapPosition?.x || surv?.position?.y !== evacuatedMapPosition?.mapPosition?.y
+  })
+
+  if (game.board.goalCollected && !isNotAllSurvsOnEvacuatedPosition) {
+    endGame('Survs Evacuated')
+  }
+}
+
 io.on("connection", (socket) => {
   console.log(`${socket.id} conectado`)
 
@@ -126,7 +139,9 @@ io.on("connection", (socket) => {
       game.players[playerIndex].survivors.push(newSurvivor)
     }
 
-    io.emit('UpdateAddSurvivorsToPlay', game.players)
+    const hasSixSurvs = getAllSurvivors().length === 6
+
+    io.emit('UpdateAddSurvivorsToPlay', game.players, hasSixSurvs)
   })
 
   socket.on('GoToChooseSurvivors', () => {
@@ -171,24 +186,24 @@ io.on("connection", (socket) => {
     const selectedSurvivor = { ...game.currentSurvivor, actions: 3 }
     game.currentSurvivor = selectedSurvivor
 
-    io.emit('CurrentSurvivorSelected', selectedSurvivor)
+    io.emit('CurrentSurvivorSelected', game)
   })
 
   socket.on('MoveSurvivor', (surv, isFreeMove, gunInventoryIndex) => {
     doAction(surv, isFreeMove, gunInventoryIndex)
     updateGame('move surv')
+    verifyIfAllSurvivorsAreOnExit()
   })
 
   function doAction(surv, isFreeMove, gunInventoryIndex) {
     const currentPlayer = game.players[getCurrentPlayerIndex(socket)]
     const survivorIndex = currentPlayer.survivors.findIndex(survivor => survivor.name === surv.name)
-    console.log(surv.actions);
     const newSurv = { ...surv, actions: surv.actions - (isFreeMove ? 0 : 1) }
-    console.log(newSurv.actions);
 
     if (newSurv.actions < 0) return
 
-    game.currentSurvivor = newSurv
+    if (getAllSurvivors())
+      game.currentSurvivor = newSurv
     currentPlayer.survivors[survivorIndex] = newSurv
     gunInventoryIndex !== undefined && verifyZombiesICanHit(game.currentSurvivor.position, gunInventoryIndex)
   }
@@ -287,9 +302,10 @@ io.on("connection", (socket) => {
 
   function finishRound() {
     game.board.currentZombieIndex = -1
+    io.emit('CurrentSurvivorSelected', game)
     addMoreZombies()
     updateGame('tira current zumbi')
-    io.emit('StartSurvivorRound', game.players)
+    io.emit('StartSurvivorRound', game)
   }
 
   function addMoreZombies() {
@@ -307,7 +323,6 @@ io.on("connection", (socket) => {
   })
 
   socket.on('RollDices', diceValues => {
-    console.log(game.currentSurvivor, 'roll dices');
     doAction(game.currentSurvivor)
 
     updateGame('rolldices')
@@ -341,11 +356,13 @@ io.on("connection", (socket) => {
   })
 
   function verifyZombiesICanHit(survPosition, gunInventoryIndex) {
-    const gunDistance = game.currentSurvivor.inventory[gunInventoryIndex].distanceToUse[1]
+    const gun = game.currentSurvivor.inventory[gunInventoryIndex]
 
+    console.log(gun);
+    console.log(game.board.zombies);
     const zombies = game.board.zombies.filter(zombie => {
       const path = findShortestPath(graph(), `${survPosition.x}${survPosition.y}`, `${zombie.position.x}${zombie.position.y}`)
-      return path.distance === 'Infinity' || path.distance <= gunDistance
+      return (path.distance === 'Infinity' || path.distance <= gun.distanceToUse[1]) && zombie.life <= gun.damage
     })
 
     socket.emit('VerifyWhoICanHit', zombies)
@@ -367,6 +384,29 @@ io.on("connection", (socket) => {
     if (game.cards.tunnedGuns.length === 0) game.cards.search = itemCards().tunnedGuns
     doAction(newSurv)
     updateGame('search item')
+  })
+
+  socket.on('OpenBox', () => {
+    const randomNumber = getRandomNumber(0, game.cards.tunnedGuns.length - 1)
+    const randomItem = game.cards.tunnedGuns.splice(randomNumber, 1)[0]
+
+    const newSurv = { ...game.currentSurvivor, inventory: [...game.currentSurvivor.inventory, randomItem] }
+    if (game.cards.search.length === 0) game.cards.search = itemCards().search
+    if (game.cards.initial.length === 0) game.cards.search = itemCards().initial
+    if (game.cards.tunnedGuns.length === 0) game.cards.search = itemCards().tunnedGuns
+
+    const mapPositionIndex = game.board.positions.findIndex(pos => pos.mapPosition.x === game.currentSurvivor.position.x && pos.mapPosition.y === game.currentSurvivor.position.y)
+    game.board.positions[mapPositionIndex].hasGunBox = false
+    doAction(newSurv)
+    updateGame('open box')
+  })
+
+  socket.on('CollectGoal', () => {
+    const mapPositionIndex = game.board.positions.findIndex(pos => pos.mapPosition.x === game.currentSurvivor.position.x && pos.mapPosition.y === game.currentSurvivor.position.y)
+    game.board.positions[mapPositionIndex].hasGoal = false
+    game.board.goalCollected = true
+    doAction(game.currentSurvivor)
+    updateGame('collect goal')
   })
 
   socket.on('disconnect', () => {

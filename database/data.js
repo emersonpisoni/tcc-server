@@ -550,18 +550,19 @@ export function itemCards() {
 
 export function getBoard() {
   return {
+    goalCollected: false,
     initialSurvivorsPosition: {
       x: 3,
       y: 1
     },
     zombies: [
-      {
-        ...ZOMBIES.CORREDOR,
-        position: {
-          x: 1,
-          y: 3
-        },
-      },
+      // {
+      //   ...ZOMBIES.CORREDOR,
+      //   position: {
+      //     x: 1,
+      //     y: 3
+      //   },
+      // },
       // {
       //   ...ZOMBIES.BALOFO,
       //   position: {
