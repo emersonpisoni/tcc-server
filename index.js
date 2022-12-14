@@ -101,7 +101,6 @@ const game = {
 }
 
 function verifyIfAllSurvivorsAreOnExit() {
-  console.log(game.board);
   const evacuatedMapPosition = game.board?.positions?.find(position => position?.evacuatePosition)
 
   const isNotAllSurvsOnEvacuatedPosition = getAllSurvivors().some(surv => {
@@ -199,8 +198,9 @@ io.on("connection", (socket) => {
     const currentPlayer = game.players[getCurrentPlayerIndex(socket)]
     const survivorIndex = currentPlayer.survivors.findIndex(survivor => survivor.name === surv.name)
     const newSurv = { ...surv, actions: surv.actions - (isFreeMove ? 0 : 1) }
-
+    console.log('antes');
     if (newSurv.actions < 0) return
+    console.log('depois');
 
     if (getAllSurvivors())
       game.currentSurvivor = newSurv
@@ -322,8 +322,8 @@ io.on("connection", (socket) => {
     io.emit('ShowRollDices', showDices)
   })
 
-  socket.on('RollDices', diceValues => {
-    doAction(game.currentSurvivor)
+  socket.on('RollDices', (diceValues, indexOfCurrentGun) => {
+    doAction(game.currentSurvivor, false, indexOfCurrentGun)
 
     updateGame('rolldices')
     socket.broadcast.emit('RollDices', diceValues)
@@ -356,14 +356,14 @@ io.on("connection", (socket) => {
   })
 
   function verifyZombiesICanHit(survPosition, gunInventoryIndex) {
+    console.log('entrou');
     const gun = game.currentSurvivor.inventory[gunInventoryIndex]
 
-    console.log(gun);
-    console.log(game.board.zombies);
     const zombies = game.board.zombies.filter(zombie => {
       const path = findShortestPath(graph(), `${survPosition.x}${survPosition.y}`, `${zombie.position.x}${zombie.position.y}`)
       return (path.distance === 'Infinity' || path.distance <= gun.distanceToUse[1]) && zombie.life <= gun.damage
     })
+    console.log(zombies);
 
     socket.emit('VerifyWhoICanHit', zombies)
   }
